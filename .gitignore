@@ -1,4 +1,7 @@
-/Practice
+Practice
+.vs
+.vscode
+.github
 
 # Prerequisites
 *.d

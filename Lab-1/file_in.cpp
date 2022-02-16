@@ -133,8 +133,6 @@ Note 1: The '&' after the 'ofstream' type for the out_stream function argument i
 reference, and not - unlike normal object function arguments - a copy. The latter would not work, since 'ofstream' does not have 
 a copy constructor. Passing it as a reference to the same object works, however, and does not require reopening the 
 file in each function.
-
-Note 2: Each output is sent out to the console and to the text file 'data.txt' opened in main().
 */
 
 void output_data(vector<vector<string> > data, ofstream& out_stream) {
@@ -148,14 +146,8 @@ void output_data(vector<vector<string> > data, ofstream& out_stream) {
   const int year_width = 12;
   const int price_width = 9;
 
-  cout <<  "SKU" << "\t" << "Brand" << "\t" << "Category" << "\t" << "Year" << "\t" << "Price\n";
   out_stream << "SKU" << setw(10) << "Brand" << setw(11) << "Category" << setw(12) << "Year" << setw(9) << "Price" << "\n";
   for (int i = 0; i < data[0].size(); i++) {
-    cout << data[0][i] 
-    << setw(brand_width) << data[1][i] 
-    << setw(cat_width) << data[2][i] 
-    << setw(year_width) << data[3][i] << right
-    << setw(price_width) << data[4][i] << "\n";
     out_stream << data[0][i] 
     << setw(brand_width) << data[1][i] 
     << setw(cat_width) << data[2][i] 
@@ -176,7 +168,6 @@ void output_averages(map<string, float> prices, ofstream& out_stream) {
   for (map<string, float>::iterator iter = prices.begin(); iter != prices.end(); ++iter) {
     string k = iter -> first;
     float v = iter -> second;
-    cout << setw(cat_width) << k << right << setw(price_width) << v << "\n";
     out_stream << setw(cat_width) << k << right << setw(price_width) << v << "\n";
   }
 }
@@ -184,7 +175,6 @@ void output_averages(map<string, float> prices, ofstream& out_stream) {
 void output_year_skus(map<string, vector<string> > by_year, ofstream& out_stream) {
   // Iterates over the year:SKU vector mapping and outputs them in the specified format "Year (SKU count): SKU1, SKU2, ... , SKUn"
 
-  cout << "\n" <<  "Year" << setw(10) << "SKUs" << "\n"; 
   out_stream << "\n" <<  "Year" << setw(10) << "SKUs" << "\n"; 
   for (map<string, vector<string> >::iterator iter = by_year.begin(); iter != by_year.end(); ++iter) {
     string k = iter -> first;
@@ -196,7 +186,6 @@ void output_year_skus(map<string, vector<string> > by_year, ofstream& out_stream
         years_skus += ", ";
       }
     }
-    cout << k << " (" << v.size()-1 << "): " << years_skus << "\n";
     out_stream << k << " (" << v.size()-1 << "): " << years_skus << "\n";
   }
 }
@@ -207,19 +196,16 @@ int main() {
 
   // Given that the floating point values are prices, there is no reason for precision beyond 2 decimal places
   // (though .precision() truncates and does not round - slight loss there).
-  cout.precision(3);
   out_stream.precision(3);
   //output values
   vector<vector<string> > data = read_data();
   output_data(data, out_stream);
 
   map<string, float> brand_prices = compute_average(data, 1); // column 1 = brand
-  cout << "\n" <<  "Brand" << setw(23) << "Average Price" << "\n"; 
   out_stream << "\n" <<  "Brand" << setw(23) << "Average Price" << "\n"; 
   output_averages(brand_prices, out_stream);
 
   map<string, float> category_prices = compute_average(data, 2); // column 2 = category
-  cout << "\n" <<  "Category" << setw(20) << "Average Price" << "\n"; 
   out_stream << "\n" <<  "Category" << setw(20) << "Average Price" << "\n"; 
   output_averages(category_prices, out_stream);
 

@@ -40,7 +40,7 @@ The source code in `file_in.cpp` was fixed to correctly provide the desired func
 - Once `main()` obtains the vector of vectors with all the data from the `.csv` file, it can call other functions which will use the `vov` as a parameter:
     - `compute_average(data, col)` - accepts the `vov` as the `data` argument and an `int col` to indicate which column is to be treated as the criterion for price average computation. Two regular (ordered) `map`s are used; one (`<string, int>`) to keep track of the count of the criterion column's unique memebers' number of occurences, and the other - `<string, float>` - to maintaing a prices total. The price strings are parsed into floats (using the C++98 compatible C standard library function `atof()`) before placing into the map as values. The function returns a `map<string, float>` which maps unique members of the chosen column to their price averages (quotient of the value from the `price_total` map with value from the `count` map).
     - `skus_by_year(data)` - accepts the `vov` as the `data` argument and constructs a mapping of years to SKUs vector (`map<string, vector<string>>`). Returns this mapping.
-- The results of the feature functions are sent by `main()` to output functions which iterate through the data structures (`vov` or `map`) and output the data (appropriately formatted) to the console *and* to the `data.txt` file.
+- The results of the feature functions are sent by `main()` to output functions which iterate through the data structures (`vov` or `map`) and output the data (appropriately formatted) to the `data.txt` file.
 
 The general flow of data can be seen on the following diagram:
 
@@ -48,7 +48,7 @@ The general flow of data can be seen on the following diagram:
 
 ## Expected Output:
 
-The program is expected to produce the following text output, consisting of the full table of data from the .csv file, the price averages tables (by brand and by category), as well as the SKUs by year lines: 
+The program is expected to produce a text file (`data.txt`) containing a formatted table with the full data from the .csv file, the price averages tables (by brand and by category), as well as the SKUs by year lines: 
 
 ```
 SKU     Brand   Category        Year    Price

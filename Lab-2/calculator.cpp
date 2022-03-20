@@ -1,23 +1,20 @@
-#include <iostream>
-#include <math.h>
+#include "helper.h"
 
-using namespace std;
 
-float fast_powering (float a, int exp);
 
 struct Calculator {
     enum oper {PLUS = 1, MINUS, MULT, DIV, POW, SQRT};
-    float op1;
-    float op2;
+    double op1;
+    double op2;
 
     Calculator() {};
 
-    Calculator(float op1, float op2) {
+    Calculator(double op1, double op2) {
         this->op1 = op1;
         this->op2 = op2;
     }
 
-    float calculate(int mode) {
+    double calculate(int mode) {
         switch(mode) {
             case PLUS:
                 return op1 + op2;
@@ -61,11 +58,11 @@ int main() {
     int mode;
     cin >> mode;
     cout << "Enter a number: ";
-    float num1;
+    double num1;
     cin >> num1;
     Calculator calc;
     if (mode < 6) {
-        float num2;
+        double num2;
         cout << "Enter another number: ";
         cin >> num2;
         calc = {num1, num2};
@@ -74,7 +71,7 @@ int main() {
     }
 
     try {
-        float result = calc.calculate(mode);
+        double result = calc.calculate(mode);
         cout << "The result is " << result << endl;
     } catch(runtime_error& e) {
         cout << "An error has occured" << endl << e.what();
@@ -83,18 +80,3 @@ int main() {
     return 0;
 }
 
-float fast_powering (float a, int exp) {
-    float result = 0;
-    while (exp > 0) {
-        if(exp & 1) {
-            if (result) {
-                result *= a;
-            } else {
-                result = a;
-            }
-        }
-        exp >>= 1;
-        a *= a;
-    }
-    return result;
-}

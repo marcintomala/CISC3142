@@ -3,10 +3,10 @@
 void test();
 
 int main() {
-    test();
+    //test();
     //asks user for input then evaluates using infix_solver()
     string expression;
-    cout << "Enter expression to evaluate (roots are handled as fractional powers, e.g. sqrt(2) -> 2^(1/2)): ";
+    cout << "Enter a non-empty expression to evaluate (NOTE: avoid two operators in a row; roots are handled as fractional powers, e.g. sqrt(2) -> 2^(1/2)): ";
     getline(cin >> ws, expression);
     cout << expression << endl;
     //exception handling, given that infix_solver throws a runtime error when the expression is empty

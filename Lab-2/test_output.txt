@@ -1,0 +1,44 @@
+Expression evaluated: 1+1
+Result: 2
+Expression evaluated: (6+4)*(10-7)
+Result: 30
+Expression evaluated: 6+4*10-7
+Result: 39
+Expression evaluated: 6+(4*10)-7
+Result: 39
+Expression evaluated: 15-431
+Result: -416
+Expression evaluated: 2^(1/2)
+Result: 1.41421
+Expression evaluated: 2^5
+Result: 32
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^0-((1-(5^(1/2)))/2)^0)
+Result: 0
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^1-((1-(5^(1/2)))/2)^1)
+Result: 1
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^2-((1-(5^(1/2)))/2)^2)
+Result: 1
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^3-((1-(5^(1/2)))/2)^3)
+Result: 2
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^4-((1-(5^(1/2)))/2)^4)
+Result: 3
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^5-((1-(5^(1/2)))/2)^5)
+Result: 5
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^6-((1-(5^(1/2)))/2)^6)
+Result: 8
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^7-((1-(5^(1/2)))/2)^7)
+Result: 13
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^8-((1-(5^(1/2)))/2)^8)
+Result: 21
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^9-((1-(5^(1/2)))/2)^9)
+Result: 34
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^10-((1-(5^(1/2)))/2)^10)
+Result: 55
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^11-((1-(5^(1/2)))/2)^11)
+Result: 89
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^12-((1-(5^(1/2)))/2)^12)
+Result: 144
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^13-((1-(5^(1/2)))/2)^13)
+Result: 233
+Expression evaluated: (1/5^(1/2))*(((1+(5^(1/2)))/2)^14-((1-(5^(1/2)))/2)^14)
+Result: 377

@@ -3,5 +3,5 @@ lab1:
 	cd Lab-1 && ./file_in.o
 	cd Lab-1 && rm file_in.o
 lab2:
-	cd Lab-2 && g++ helper.cpp -c
-	cd Lab-2 && g++ calculator.cpp helper.o -o calc && ./calc
+	cd Lab-2 && g++ calculator.cpp -c
+	cd Lab-2 && g++ main.cpp calculator.o -o main && ./main

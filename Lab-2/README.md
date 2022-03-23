@@ -32,7 +32,7 @@ The program parses the string in `infix_solver()` and evaluates using two stacks
 
 ## References
 
-The evaluation algorithm was prepared with the help of (but not copied from) [this article](https://www.geeksforgeeks.org/expression-evaluation/). 
+The evaluation algorithm was prepared with the help of (but not copied from - their solution does not include exponentiation, for example) [this article](https://www.geeksforgeeks.org/expression-evaluation/). 
 
 ## Expected Output:
 

@@ -18,7 +18,7 @@ then run the program from there.
   o Operators to include in your implementation (at minimum): add, subtract, multiply, divide, squareroot
 
 ## Solution
-  
+
 I decided to simplify the object-oriented aspect of the calculator by defining a `struct` which is created with one single member - the expression the user wants evaluated.
 `Enum` is used to streamline the `switch` statements.
 
@@ -30,6 +30,9 @@ The only constraints of the program are:
 
 The program parses the string in `infix_solver()` and evaluates using two stacks - one for operators and one for operands. Parentheses and order of operations is preserved.
 
+## References
+
+The solution was made with the help of (but not copied from) [this article](https://www.geeksforgeeks.org/expression-evaluation/). 
 
 ## Expected Output:
 

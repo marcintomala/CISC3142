@@ -25,7 +25,7 @@ I decided to simplify the object-oriented aspect of the calculator by defining a
 The program prompts the user for an expression to evaluate with minimal constraints - the onus on removing undesired characters falls on the program.
 The only constraints of the program are:
   - The expression should not be empty
-  - The expression should not contain two operators in a row "e.g. 5+5"
+  - The expression should not contain two operators in a row (e.g. "5+-5")
   - The notation for roots should be fractional powers (e.g. sqrt(2) -> 2^(1/2)).
 
 The program parses the string in `infix_solver()`, treating every number as a double (. is therefore allowed inside the string) and evaluates using two stacks - one for operators and one for operands. Parentheses and order of operations is preserved.

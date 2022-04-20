@@ -1,8 +1,7 @@
-#include "io.cpp"
 #include "aggfunc.cpp"
 
 int main () {
-    read();
+    map<string, double> rate = pass_rate_by_ins();
     return 0;
 }
 

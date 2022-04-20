@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unordered_map>
+#include <vector>
 #include "section.h"
 #include "student.h"
 #include "instructor.h"
@@ -9,6 +10,7 @@ class college {
     unordered_map<string, student*> students;
     unordered_map<string, section*> courses;
     unordered_map<string, instructor*> instructors;
+    unordered_map<string, vector<string>> course_to_student;
 
     public: 
     college() {};
@@ -45,6 +47,14 @@ class college {
 
     void schedule_course(string course, section* sect) {
         courses[course] = sect;   
+    }
+
+    void set_cts (unordered_map<string, vector<string>> cts) {
+        course_to_student = cts;
+    }
+
+    unordered_map<string, vector<string>> get_cts () {
+        return course_to_student;
     }
 
     unordered_map<string, student*> get_students() {

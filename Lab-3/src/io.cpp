@@ -6,13 +6,13 @@
 #include "college.h"
 
 using namespace std;
-namespace fs = experimental::filesystem;
+namespace fs = experimental::filesystem::v1;
 
 vector<string> dir_filter () {
     // to filter out non-.csv files
     vector<string> csv_files;
     string extension = ".csv";
-    for (const auto& file : fs::v1::directory_iterator("../data/")) {
+    for (const auto& file : fs::directory_iterator("../data/")) {
         if (file.path().extension().string() == extension)
             csv_files.push_back(file.path());
     }
@@ -20,7 +20,7 @@ vector<string> dir_filter () {
 }
 
 
-int read () {
+college read () {
     // reading all the .csv files in the /data directory
     ifstream in_stream;
     vector<string> files = dir_filter(); // paths to only the .csv files
@@ -78,26 +78,19 @@ int read () {
         in_stream.close();
     }
 
-    for (const auto& s : c.get_students()) {
-        cout << s.first << ": ";
-        for (const auto& c : s.second->classes) {
-            cout << c.first << ": " << c.second << "; "; 
+    unordered_map<string, vector<string>> cts;
+
+    for(const auto& s : c.get_students()) {
+        for(const auto& i : s.second->classes) {
+            if(!cts.count(i.first)) {
+                cts[i.first] = vector<string> {s.first};
+            } else {
+                cts[i.first].push_back(s.first);
+            }
         }
-        cout << endl;
-    }
-    for (const auto& co : c.get_courses()) {
-        cout << co.first << ": ";
-        cout << co.second->course_num << ", " << co.second->instr_id << ", "
-             << co.second->section_code << ", " << co.second->term << endl;
     }
 
-    for (const auto& i : c.get_instructors()) {
-        cout << i.first << ": ";
-        for (const auto& c : i.second->classes) {
-            cout << c << " "; 
-        }
-        cout << endl;
-    }
+    c.set_cts(cts);
 
-    return 0;
+    return c;
 }

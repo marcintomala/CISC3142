@@ -13,36 +13,6 @@ bool passed(string grade) {
     return passing.count(grade);
 }
 
-map<string, double> pass_rate_by_ins() {
-    college bc = read();
-    int pass;
-    int total;
-    int pass_by_class;
-    int tot_by_class;
-    double p_rate;
-    map<string, double> pass_rate;
-    unordered_map<string, vector<string>> cts = bc.get_cts();
-    unordered_map<string, student*> students = bc.get_students();
-    int student_total = 0;
-    for(const auto& i : bc.get_instructors()) {
-        pass = 0;
-        total = 0;
-        cout << i.first << ": ";
-        for (const auto& c : i.second->classes) {
-            for(string s : cts[c]) {
-                pass += passed(students[s]->classes[c]);
-                total++;
-            }
-        }
-        p_rate = double (pass)/total;
-        cout << "passed: " << pass << " total: " << total << " rate: " << int (p_rate*100) << "%" << endl;
-        pass_rate[i.first] = p_rate;
-        student_total += total;
-    }
-    cout << "Total students: " << student_total << endl;
-    return pass_rate;
-}
-
 bool withdrew(string grade) {
     unordered_set<string> withdrawals = {"W", "WN", "WD", "WU"};
     return withdrawals.count(grade);
@@ -52,6 +22,36 @@ bool cs_passed(string grade) {
     unordered_set<string> cs_passing = {"A+", "A", "A-", "B+", "B", "B-", "C+", "C", "CR"};
     return cs_passing.count(grade);
 }
+
+map<string, double> pass_rate_by_ins(college* bc, bool (*criterion)(string), string statistic) {
+    int pass;
+    int total;
+    double p_rate;
+    
+    map<string, double> pass_rate;
+    unordered_map<string, section*>* courses = bc->get_courses();
+    unordered_map<string, student*>* students = bc->get_students();
+    unordered_map<string, instructor*>* instructors = bc->get_instructors();
+    int student_total = 0;
+    for(const auto& i : *instructors) {
+        pass = 0;
+        total = 0;
+        cout << i.first << ": ";
+        for (const auto& c : i.second->classes) {
+            for(string s : courses->at(c)->students) {
+                pass += criterion(students->at(s)->classes[c]);
+                total++;
+            }
+        }
+        p_rate = double (pass)/total;
+        cout << statistic + ": " << pass << " total: " << total << " rate: " << int (p_rate*100) << "%" << endl;
+        pass_rate[i.first] = p_rate;
+        student_total += total;
+    }
+    cout << "Total students: " << student_total << endl;
+    return pass_rate;
+}
+
 
 int grade_to_number (string grade) {
     // randomized numerization function

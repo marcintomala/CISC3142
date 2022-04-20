@@ -10,7 +10,6 @@ class college {
     unordered_map<string, student*> students;
     unordered_map<string, section*> courses;
     unordered_map<string, instructor*> instructors;
-    unordered_map<string, vector<string>> course_to_student;
 
     public: 
     college() {};
@@ -28,6 +27,7 @@ class college {
     }
 
     void enroll_student(string emplid, string course, string grade) {
+        //only unique students are added, otherwise they only have a new course added to them
         if (!students.count(emplid)) {
             student* s = new student(emplid, course, grade);
             students[emplid] = s;
@@ -37,6 +37,7 @@ class college {
     }
 
     void assign_instructor(string ins_id, string course) {
+        //only unique instructors are added, otherwise they only have a new course added to them
         if (!instructors.count(ins_id)) {
             instructor* s = new instructor(ins_id, course);
             instructors[ins_id] = s;
@@ -46,25 +47,20 @@ class college {
     }
 
     void schedule_course(string course, section* sect) {
+        //courses are uniquely identified, so there is nothing else to do than to add them
         courses[course] = sect;   
     }
 
-    void set_cts (unordered_map<string, vector<string>> cts) {
-        course_to_student = cts;
-    }
 
-    unordered_map<string, vector<string>> get_cts () {
-        return course_to_student;
+    //to avoid passing big data structures around, getters return the address of the main college ds':
+    unordered_map<string, student*>* get_students() {
+        return &students;
     }
-
-    unordered_map<string, student*> get_students() {
-        return students;
+    unordered_map<string, section*>* get_courses() {
+        return &courses;
     }
-    unordered_map<string, section*> get_courses() {
-        return courses;
-    }
-    unordered_map<string, instructor*> get_instructors() {
-        return instructors;
+    unordered_map<string, instructor*>* get_instructors() {
+        return &instructors;
     }
 
 };

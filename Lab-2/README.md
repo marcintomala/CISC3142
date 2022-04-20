@@ -10,26 +10,29 @@ then run the program from there.
 
 ## Problem Statement
 
-###Requirements
-• A user-defined calculator struct type with an Operator enum within the same scope.
-  o Create members, functions, constructors as needed for your program design.
-• End-user input into program can be either mathematical expressions or text file input – clearly state your design/spec in your documentation
-  o Allow different number types as operands, not just limited to int
-  o Operators to include in your implementation (at minimum): add, subtract, multiply, divide, squareroot
+### Requirements
+- A user-defined calculator struct type with an Operator enum within the same scope.
+  - Create members, functions, constructors as needed for your program design.
+- End-user input into program can be either mathematical expressions or text file input – clearly state your design/spec in your documentation
+  - Allow different number types as operands, not just limited to int
+  - Operators to include in your implementation (at minimum): add, subtract, multiply, divide, squareroot
 
 ## Solution
-  
+
 I decided to simplify the object-oriented aspect of the calculator by defining a `struct` which is created with one single member - the expression the user wants evaluated.
 `Enum` is used to streamline the `switch` statements.
 
 The program prompts the user for an expression to evaluate with minimal constraints - the onus on removing undesired characters falls on the program.
 The only constraints of the program are:
   - The expression should not be empty
-  - The expression should not contain two operators in a row "e.g. 5+5"
+  - The expression should not contain two operators in a row (e.g. "5+-5")
   - The notation for roots should be fractional powers (e.g. sqrt(2) -> 2^(1/2)).
 
-The program parses the string in `infix_solver()` and evaluates using two stacks - one for operators and one for operands. Parentheses and order of operations is preserved.
+The program parses the string in `infix_solver()`, treating every number as a double (. is therefore allowed inside the string) and evaluates using two stacks - one for operators and one for operands. Parentheses and order of operations is preserved.
 
+## References
+
+The evaluation algorithm was prepared with the help of (but not copied from - their solution does not include exponentiation, for example) [this article](https://www.geeksforgeeks.org/expression-evaluation/). 
 
 ## Expected Output:
 

@@ -23,33 +23,76 @@ bool cs_passed(string grade) {
     return cs_passing.count(grade);
 }
 
-map<string, double> pass_rate_by_ins(college* bc, bool (*criterion)(string), string statistic) {
-    int pass;
-    int total;
-    double p_rate;
-    
-    map<string, double> pass_rate;
+map<string, vector<double>> rate_by_course(college* bc, bool (*criterion)(string)) {
+    double hit;
+    double total;
+    double student_total = 0;
+    string course_no;
+    vector<double> hit_rate;
+    map<string, vector<double>> per_course_rate;
+
     unordered_map<string, section*>* courses = bc->get_courses();
     unordered_map<string, student*>* students = bc->get_students();
     unordered_map<string, instructor*>* instructors = bc->get_instructors();
-    int student_total = 0;
+
+    for(const auto& c : *courses) {
+        hit = 0;
+        total = 0;
+        hit_rate = {};
+        course_no = c.second->course_no;
+        for (const auto& s : c.second->students) {
+            hit += criterion(students->at(s)->classes.at(c.first));
+            total++;
+        }
+
+        if(per_course_rate.count(course_no)) {
+            per_course_rate[course_no][0] += hit;
+            per_course_rate[course_no][1] += total;
+        } else {
+            hit_rate.push_back(hit);
+            hit_rate.push_back(total);
+            per_course_rate[course_no] = hit_rate;
+        }
+        student_total += total;
+    }
+
+    vector<string> course_nos = {"1115", "3115", "3130"};
+    for (string s : course_nos) {
+        per_course_rate[s].push_back(per_course_rate[s][0] / per_course_rate[s][1]);
+    }
+
+    return per_course_rate;
+}
+
+map<string, vector<double>> rate_by_ins(college* bc, bool (*criterion)(string)) {
+    double pass;
+    double total;
+    double student_total = 0;
+    vector<double> p_rate;
+    map<string, vector<double>> per_ins_rate;
+    
+    unordered_map<string, section*>* courses = bc->get_courses();
+    unordered_map<string, student*>* students = bc->get_students();
+    unordered_map<string, instructor*>* instructors = bc->get_instructors();
+    
     for(const auto& i : *instructors) {
         pass = 0;
         total = 0;
-        cout << i.first << ": ";
+        p_rate = {};
         for (const auto& c : i.second->classes) {
             for(string s : courses->at(c)->students) {
                 pass += criterion(students->at(s)->classes[c]);
                 total++;
             }
         }
-        p_rate = double (pass)/total;
-        cout << statistic + ": " << pass << " total: " << total << " rate: " << int (p_rate*100) << "%" << endl;
-        pass_rate[i.first] = p_rate;
+        p_rate.push_back(pass);
+        p_rate.push_back(total);
+        p_rate.push_back(double (pass)/total);
+        per_ins_rate[i.first] = p_rate;
         student_total += total;
     }
-    cout << "Total students: " << student_total << endl;
-    return pass_rate;
+    cout << "Total records read: " << student_total << endl;
+    return per_ins_rate;
 }
 
 

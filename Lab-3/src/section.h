@@ -4,14 +4,16 @@
 using namespace std;
 
 struct section {
-    string course_num;
+    string class_id;
+    string course_no;
     string section_code;
     string instr_id;
     string term;
     vector<string> students;
 
-    section(string course_num, string section_code, string instr_id, string term) {
-        this->course_num = course_num;
+    section(string class_id, string course_no, string section_code, string instr_id, string term) {
+        this->class_id = class_id;
+        this->course_no = course_no;
         this->section_code = section_code;
         this->instr_id = instr_id;
         this->term = term;

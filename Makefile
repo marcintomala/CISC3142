@@ -7,6 +7,7 @@ lab2:
 	cd Lab-2 && g++ main.cpp calculator.o -o main -std=c++14 && ./main
 lab3:
 	g++ -c ./Lab-3/src/section.h -std=c++14
+	g++ -c ./Lab-3/src/term.h -std=c++14
 	g++ -c ./Lab-3/src/student.h -std=c++14
 	g++ -c ./Lab-3/src/instructor.h -std=c++14
 	g++ -c ./Lab-3/src/college.h -std=c++14

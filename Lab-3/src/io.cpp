@@ -3,6 +3,7 @@
 #include <fstream>
 #include <experimental/filesystem>
 #include <unordered_set>
+#include <set>
 #include "college.h"
 
 using namespace std;
@@ -25,6 +26,8 @@ college read () {
     ifstream in_stream;
     vector<string> files = dir_filter(); // paths to only the .csv files
     
+    set<string> possible_terms;
+
     college c;
 
     for (string file : files) {
@@ -66,16 +69,24 @@ college read () {
                 //each course section instance is labeled with a unique code
                 //(concatenation of course_no, term_id, and section code)
                 string class_id = term_id + '.' + course_no + '.' + sect_code;
-                //we attempt to retrieve the section from the college
+                //we attempt to retrieve the section and term from the college
                 section* sect = c.get_section(class_id);
+                term* t = c.get_term(term_id);
                 //if section is not already in college, we register it now:
                 if(!sect) {
-                    sect = new section (class_id, sect_code, ins_id, term_id);
+                    sect = new section (class_id, course_no, sect_code, ins_id, term_id);
                     c.schedule_course(class_id, sect);
                 }
 
+                if(!t) {
+                    t = new term(term_id, class_id);
+                    c.schedule_term(term_id, t);
+                }
+                
+                possible_terms.insert(term_id);
                 //student from the current line gets added to the section
                 sect->add_student(emplid);
+                t->add_course(class_id);
                 //student and instructor from current line are added to the college
                 c.enroll_student(emplid, class_id, grade);
                 c.assign_instructor(ins_id, class_id);
@@ -84,5 +95,11 @@ college read () {
         in_stream.close();
     }
 
+    cout << "Possible terms:" << endl;
+    for(string s : possible_terms) {
+        cout << s << " "; 
+    }
+    cout << endl;
+    
     return c;
 }

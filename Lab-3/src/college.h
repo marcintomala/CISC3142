@@ -4,12 +4,14 @@
 #include "section.h"
 #include "student.h"
 #include "instructor.h"
+#include "term.h"
 
 
 class college {
     unordered_map<string, student*> students;
     unordered_map<string, section*> courses;
     unordered_map<string, instructor*> instructors;
+    unordered_map<string, term*> terms;
 
     public: 
     college() {};
@@ -24,6 +26,10 @@ class college {
 
     instructor* get_instructor(string ins_id) {
         return instructors[ins_id]; 
+    }
+
+    term* get_term(string term_id) {
+        return terms[term_id];
     }
 
     void enroll_student(string emplid, string course, string grade) {
@@ -51,6 +57,9 @@ class college {
         courses[course] = sect;   
     }
 
+    void schedule_term(string term_id, term* term) {
+        terms[term_id] = term;
+    }
 
     //to avoid passing big data structures around, getters return the address of the main college ds':
     unordered_map<string, student*>* get_students() {
@@ -61,6 +70,9 @@ class college {
     }
     unordered_map<string, instructor*>* get_instructors() {
         return &instructors;
+    }
+    unordered_map<string, term*>* get_terms() {
+        return &terms;
     }
 
 };

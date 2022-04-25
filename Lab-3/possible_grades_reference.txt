@@ -2,4 +2,4 @@ Valid:
     Passing: A+, A, A-, B+, B, B-, C+, C, C-, D+, D, D-, P
     Failing: F, NC, FIN, WU
 Invalid:
-    AUD, WD, W, WN, INC
+    AUD, WD, W, WN, INC, NC, P, CR

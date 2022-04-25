@@ -7,9 +7,10 @@
 
 using namespace std;
 
+
+/* boolean functions that returns whether a grade is in one of the main three aggregation categories: */
 bool passed(string grade) {
     unordered_set<string> passing = {"A+", "A", "A-", "B+", "B", "B-", "C+", "C", "CR", "C-", "D+", "D", "D-", "P"};
-    // Any grade below C- cannot be used to proceed with CS major - thus another category of failure
     return passing.count(grade);
 }
 
@@ -19,10 +20,14 @@ bool withdrew(string grade) {
 }
 
 bool cs_passed(string grade) {
+    // Any grade below C cannot be used to proceed with CS major - thus another category of failure
     unordered_set<string> cs_passing = {"A+", "A", "A-", "B+", "B", "B-", "C+", "C", "CR"};
     return cs_passing.count(grade);
 }
 
+
+/* aggregation functions which return the mappings of category units to vector of {hit / attempt / ratio}:
+   criterion is one of the filtering functions from above passed as a function pointer: */
 map<string, vector<double>> rate_by_course(college* bc, bool (*criterion)(string)) {
     double hit;
     double total;
@@ -33,8 +38,8 @@ map<string, vector<double>> rate_by_course(college* bc, bool (*criterion)(string
 
     unordered_map<string, section*>* courses = bc->get_courses();
     unordered_map<string, student*>* students = bc->get_students();
-    unordered_map<string, instructor*>* instructors = bc->get_instructors();
 
+    // for each course, we want to compute the number of students who passed/cs_passed/withdrew
     for(const auto& c : *courses) {
         hit = 0;
         total = 0;
@@ -65,7 +70,7 @@ map<string, vector<double>> rate_by_course(college* bc, bool (*criterion)(string
 }
 
 map<string, vector<double>> rate_by_ins(college* bc, bool (*criterion)(string)) {
-    double pass;
+    double hit;
     double total;
     double student_total = 0;
     vector<double> p_rate;
@@ -76,72 +81,93 @@ map<string, vector<double>> rate_by_ins(college* bc, bool (*criterion)(string)) 
     unordered_map<string, instructor*>* instructors = bc->get_instructors();
     
     for(const auto& i : *instructors) {
-        pass = 0;
+        hit = 0;
         total = 0;
         p_rate = {};
         for (const auto& c : i.second->classes) {
             for(string s : courses->at(c)->students) {
-                pass += criterion(students->at(s)->classes[c]);
+                hit += criterion(students->at(s)->classes[c]);
                 total++;
             }
         }
-        p_rate.push_back(pass);
+        p_rate.push_back(hit);
         p_rate.push_back(total);
-        p_rate.push_back(double (pass)/total);
+        p_rate.push_back(double (hit)/total);
         per_ins_rate[i.first] = p_rate;
         student_total += total;
     }
-    cout << "Total records read: " << student_total << endl;
     return per_ins_rate;
 }
 
 
-int grade_to_number (string grade) {
-    // randomized numerization function
-    // input: valid letter grade (possibly with +/-)
-    // output: randomized numerical value corresponding to it
-
-    int numeric = 30;
-    enum brackets {A = 65, B, C, D, F};
-    enum plmn {PLUS = 43, MINUS = 45};
-
-    switch(grade[0]) {
-        case A:
-            numeric += 65;
-            break;
-        case B:
-            numeric += 55;
-            break;
-        case C:
-            numeric += 45;
-            break;
-        case D:
-            numeric += 35;
-            break;
-        default:
-            break;
-    }
-
-    int plminoffset = (rand() % 2) + 3;
-
-    if (numeric == 30) {
-        numeric += ((rand() % 5) - 2) * 10;
-    }
-
-    if (grade.length() > 1) {
-        switch(grade[1]) {
-            case PLUS:
-                numeric += plminoffset;
-                break;
-            case MINUS:
-                numeric -= plminoffset;
-                break;
-            default:
-                break;
+map<string, vector<double>> rate_by_term (college* bc, bool (*criterion)(string)) {
+    double spring_hit = 0;
+    double spring_total = 0;
+    double fall_hit = 0;
+    double fall_total = 0;
+    double student_total = 0;
+    vector<double> p_rate;
+    map<string, vector<double>> per_term_rate = {
+        {"Spring", {0, 0, 0}}, {"Fall", {0, 0, 0}}
+    };
+    
+    unordered_map<string, section*>* courses = bc->get_courses();
+    unordered_map<string, student*>* students = bc->get_students();
+    unordered_map<string, term*>* terms = bc->get_terms();
+    
+    for(const auto& i : *terms) {
+        p_rate = {};
+        for (string c : i.second->courses) {
+            for(string s : courses->at(c)->students) {
+                if (i.second->is_spring) {
+                    spring_hit += criterion(students->at(s)->classes[c]);
+                    spring_total++;
+                } else {
+                    fall_hit += criterion(students->at(s)->classes[c]);
+                    fall_total++;
+                }
+                student_total++;
+            }
         }
-    } else {
-        numeric += (rand() % 4) - 3;
     }
+    per_term_rate["Spring"][0] = spring_hit;
+    per_term_rate["Spring"][1] = spring_total;
+    per_term_rate["Spring"][2] = spring_hit/spring_total;
 
-    return numeric;
+    per_term_rate["Fall"][0] = fall_hit;
+    per_term_rate["Fall"][1] = fall_total;
+    per_term_rate["Fall"][2] = fall_hit/fall_total;
+
+    return per_term_rate;
+}
+
+
+bool one_attempt(unordered_map<string, string>* courses) {
+    // additional aggregation - how many of the students in the dataset have succeeded in
+    // completing the intro sequence in one attempt each:
+    unordered_set<string> course_nos;
+    for (const auto& c : *courses) {
+        string course_no = c.first.substr(4, 4);
+        if(!course_nos.count(course_no)) {
+            course_nos.insert(course_no);
+        } else {
+            return false;
+        }
+    }
+    return course_nos.size() == 3;
+}
+
+bool straight_As(unordered_map<string, string>* courses) {
+    // additional aggregation - how many of the students in the dataset have succeeded in 
+    // passing each of the 3 courses with perfect GPA:
+    unordered_set<string> course_nos;
+    for (const auto& c : *courses) {
+        string course_no = c.first.substr(4, 4);
+        if(!course_nos.count(course_no) && (c.second == "A" || c.second == "A+")) {
+            course_nos.insert(course_no);
+        } else {
+            return false;
+        }
+    }
+    return course_nos.size() == 3;
 }

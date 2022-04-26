@@ -36,4 +36,4 @@ Practice
 *.out
 *.app
 Lab-2/main
-Lab-3/output
+Lab-3/output/*.txt

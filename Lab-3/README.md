@@ -4,7 +4,8 @@ Perform data analysis on a set of `.csv` files using object-oriented programming
 
 ## Run Instructions
 
-### Due to the inclusion of a submodule, the repository should be cloned using `git clone --recurse-submodules <repo link>`.
+### Due to the inclusion of a submodule, the repository should be cloned using 
+### `git clone --recurse-submodules <repo link>`.
 
 Assuming `g++` and `make` are present on our machine, all that is required to run the included code is to execute the command `make lab3` 
 from the root directory of the repository. The `Makefile` is designed such that it will cd into and compile the code inside the `Lab-3` directory,

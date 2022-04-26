@@ -42,4 +42,4 @@ The program will read the `.csv` files, building a `college` object which includ
 
 Using Python with Pandas, I did some quick analysis to ensure that the numbers produced by my C++ program are indeed correct. The code used along with its output is available in the below Google Collab notebook:
 
-[Google Collab with Pandas analysis to verify the results](https://colab.research.google.com/drive/1lvZg55RNVdSvv3300y2QjlS2Q7zh7QoO?usp=sharing)
+[Google Collab with Pandas analysis to verify the results](https://github.com/marcintomala/CISC3142/blob/main/Lab-3/CISC3142_HW3_Verification.ipynb)

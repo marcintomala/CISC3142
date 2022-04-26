@@ -31,6 +31,7 @@ Another file shows enrollment count from a separate source that can be used to v
 The program will read the `.csv` files, building a `college` object which includes data structures which store the instances of the four datatypes: `student`, `section`, `instructor`, `term`. The aggregation functions in `aggfunc.cpp` will use this organization to perform appropriate analysis. Output functions in `read.cpp` will produce file report outputs with timestamps in `output` directory.
 
 #### In detail:
+- Since the data structs - `student`, `section`, `instructor`, `term` consist of only fields and constructors, I did not see much sense in separating them out into a `.h` and a `.cpp` file. The `college` class, however, which is much more robust, is separated into a `.h` and a `.cpp`.
 - The `main()` function in `main.cpp` will first build a `college` object using the `read()` function in `io.cpp`.
   - The `read()` function first builds a `vector` of filenames in `data` folder with the correct (`.csv`) extension (`read()` also throws an exception if any of the files is incorrectly formatted - the specified 6 columns are required). 
   - The `read()` function iterates over that vector, reading each file and extracting information needed to instantiate each of the four structs and add their respective pointers to the `college` object's storage data structures.
